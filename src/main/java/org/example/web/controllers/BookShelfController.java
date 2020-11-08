@@ -30,6 +30,13 @@ public class BookShelfController {
         model.addAttribute("bookList", bookService.getAllBooks());
         return "book_shelf";
     }
+    @GetMapping("/shelf_errorpage")
+    public String books1(Model model) {
+        logger.info("got book shelf");
+        model.addAttribute("book", new Book());
+        model.addAttribute("bookList", bookService.getAllBooks());
+        return "book_shelf_errorpage";
+    }
 
     @PostMapping("/save")
     public String saveBook(Book book) {
@@ -43,7 +50,7 @@ public class BookShelfController {
         if (bookService.removeBookById(bookIdToRemove)) {
             return "redirect:/books/shelf";
         } else {
-            return "book_shelf";
+            return "redirect:/books/shelf_errorpage";
         }
     }
 }

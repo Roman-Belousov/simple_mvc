@@ -27,6 +27,7 @@
         th, td {
             border-bottom: 1px solid #ddd;
         }
+
     </style>
 </head>
 <body>
@@ -35,13 +36,13 @@
         <table>
             <tr>
                 <td>
-                    <input type="text"  required pattern="^[a-zA-Z]+$" placeholder="author" th:field="*{author}">
+                    <input type="text" placeholder="author" th:field="*{author}">
                 </td>
                 <td>
-                    <input type="text" required placeholder="book_title" th:field="*{title}">
+                    <input type="text" placeholder="book_title" th:field="*{title}">
                 </td>
                 <td>
-                    <input type="text" required pattern="[0-9]{1,10}" placeholder="size (pages)" th:field="*{size}">
+                    <input type="text" placeholder="size (pages)" th:field="*{size}">
                 </td>
                 <td>
                     <input type="submit" value="save">
@@ -54,13 +55,17 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" required pattern="^[ 0-9]+$" placeholder="id number" th:name="bookIdToRemove">
+                    <input type="text" pattern="^[ 0-9]+$" placeholder="id number" th:name="bookIdToRemove">
+                    <p style="color:red"><b>invalid id, try again</b></p>
                 </td>
                 <td>
                     <input type="submit" value="remove">
+
                 </td>
             </tr>
         </table>
+
+
     </form>
 
 

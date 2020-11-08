@@ -21,10 +21,15 @@ public class BookRepository implements ProjectRepository<Book> {
     @Override
     public void store(Book book) {
         book.setId(book.hashCode());
-        logger.info("store new book: " + book);
-        repo.add(book);
-    }
+       // logger.info("store new book: " + book);
+        if(book.getSize() != null && !book.getAuthor().isBlank() && !book.getTitle().isBlank()){
+            repo.add(book);
+            logger.info("store new book: " + book);
 
+        }else {
+            return;
+        }
+    }
     @Override
     public boolean removeItemById(Integer bookIdToRemove) {
         for (Book book : retreiveAll()) {
