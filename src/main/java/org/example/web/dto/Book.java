@@ -6,6 +6,7 @@ public class Book {
     private String author;
     private String title;
     private Integer size;
+    private String cover;
 
     public Integer getId() {
         return id;
