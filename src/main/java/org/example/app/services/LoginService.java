@@ -10,6 +10,6 @@ public class LoginService {
 
     public boolean authenticate(LoginForm loginForm){
         logger.info("try auth with user-form: " + loginForm);
-        return loginForm.getUsername().equals("root") && loginForm.getPassword().equals("123");
+        return loginForm.getUsername().equals(true) && loginForm.getPassword().equals(true);
     }
 }
