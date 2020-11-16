@@ -1,7 +1,6 @@
 package org.example.app.services;
 
 import org.apache.log4j.Logger;
-import org.example.web.dto.Book;
 import org.example.web.dto.User;
 import org.springframework.stereotype.Repository;
 
@@ -21,24 +20,19 @@ public class UserRepository implements ProjectRepository<User> {
 
     @Override
     public void store(User user) {
-        user.setId(user.hashCode());
-       // logger.info("store new book: " + book);
-        if( !user.getUsername().isBlank() && !user.getPassword().isBlank()){
+
+        // logger.info("store new book: " + book);
+        if (!user.getUsername().isBlank() && !user.getPassword().isBlank()) {
             repo.add(user);
             logger.info("store new user: " + user);
-
-        }else {
+        } else {
             return;
         }
     }
+
     @Override
-    public boolean removeItemById(Integer userIdToRemove) {
-        for (User user : retreiveAll()) {
-            if (user.getId().equals(userIdToRemove)) {
-                logger.info("remove user completed: " + user);
-                return repo.remove(user);
-            }
-        }
+    public boolean removeItemById(Integer bookIdToRemove) {
         return false;
     }
+
 }

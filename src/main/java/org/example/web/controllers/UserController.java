@@ -23,12 +23,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/set")
+    @GetMapping("/list")
     public String users(Model model) {
-        logger.info("got user set");
+        logger.info("got user list");
         model.addAttribute("user", new User());
         model.addAttribute("userList", userService.getAllUsers());
-        return "user_set";
+        return "user_list";
     }
 
 
@@ -36,15 +36,7 @@ public class UserController {
     public String saveUser(User user) {
         userService.saveUser(user);
         logger.info("current repository size: " + userService.getAllUsers().size());
-        return "redirect:/login";
+        return "redirect:/users/list";
     }
 
-    @PostMapping("/remove")
-    public String removeUser(@RequestParam(value = "userIdToRemove") Integer userIdToRemove) {
-        if (userService.removeUserById(userIdToRemove)) {
-            return "redirect:/users/set";
-        } else {
-            return "redirect:/users/set";
-        }
     }
-}

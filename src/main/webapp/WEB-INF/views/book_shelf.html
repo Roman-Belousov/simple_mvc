@@ -78,6 +78,9 @@
             <td th:text="${book.size}"></td>
         </tr>
     </table>
+    <form method="get" th:action="@{/login}">
+        <input class="login_item" type="submit" value="exit">
+    </form>
 </div>
 </body>
 </html>

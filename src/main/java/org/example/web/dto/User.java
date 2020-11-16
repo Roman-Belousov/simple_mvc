@@ -2,16 +2,16 @@ package org.example.web.dto;
 
 public class User {
 
-    private Integer id;
+
     private String username;
     private String password;
 
-    public Integer getId() {
-        return id;
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public User() {
     }
 
     public String getUsername() {
@@ -33,10 +33,10 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
+                "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
 }
+
 

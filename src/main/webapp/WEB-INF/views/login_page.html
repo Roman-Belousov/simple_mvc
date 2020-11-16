@@ -17,7 +17,7 @@
 </head>
 <body>
 <div id="login_form">
-    <form method="post" th:action="@{/login/auth}" th:object="${loginForm}">
+    <form method="post" th:action="@{/login/auth}" th:object="${loginform}">
         <img class="login_item" th:src="@{/images/book_PNG51037.png}">
         <br>
         <input class="login_item" type="text" placeholder="enter username" th:field="*{username}">
@@ -26,8 +26,10 @@
         <br>
         <input class="login_item" type="submit" value="signin">
     </form>
-
-    <input class="login_item" type="submit" value="signup">
+<!--    <button class="login_item" onclick="document.location='/user_set.html'">signup</button>-->
+    <form method="get" th:action="@{/users/list}">
+        <input class="login_item" type="submit" value="signup">
+    </form>
 </div>
 </body>
 </html>

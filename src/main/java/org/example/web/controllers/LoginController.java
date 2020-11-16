@@ -3,6 +3,7 @@ package org.example.web.controllers;
 import org.apache.log4j.Logger;
 import org.example.app.services.LoginService;
 import org.example.web.dto.LoginForm;
+import org.example.web.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,13 +26,13 @@ public class LoginController {
   @GetMapping
   public String login(Model model) {
     logger.info("GET /login returns login_page.html");
-    model.addAttribute("loginForm", new LoginForm());
+    model.addAttribute("loginform", new LoginForm());
     return "login_page";
   }
 
   @PostMapping("/auth")
-  public String authenticate(LoginForm loginFrom) {
-    if (loginService.authenticate(loginFrom)) {
+  public String authenticate(LoginForm loginform) {
+    if (loginService.authenticate(loginform)) {
       logger.info("login OK redirect to book shelf");
       return "redirect:/books/shelf";
     } else {
