@@ -5,6 +5,7 @@ import org.example.web.dto.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Repository
@@ -30,6 +31,26 @@ public class BookRepository implements ProjectRepository<Book> {
             return;
         }
     }
+
+    @Override
+    public boolean removeItemByAuthor(String bookAuthorToRemove) {
+        int count = 1;
+        for (Book book : retreiveAll()) {
+            if (book.getAuthor().equals(bookAuthorToRemove)) {
+                logger.info("remove book completed: " + book);
+                repo.remove(book);
+                count++;
+            }
+        }
+            if (count == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+
+
 
     @Override
     public boolean removeItemById(Integer bookIdToRemove) {

@@ -23,6 +23,9 @@ public class BookService {
     public void saveBook(Book book) {
         bookRepo.store(book);
     }
+    public boolean removeBookByAuthor(String bookAuthorToRemove) {
+        return bookRepo.removeItemByAuthor(bookAuthorToRemove);
+    }
 
     public boolean removeBookById(Integer bookIdToRemove) {
         return bookRepo.removeItemById(bookIdToRemove);

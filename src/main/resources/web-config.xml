@@ -12,6 +12,7 @@
 
     <context:component-scan base-package="org.example.web"/>
     <mvc:resources mapping="/**" location="classpath:images"/>
+    <mvc:resources mapping="resources/**" location="/resources/css/"></mvc:resources>
     <mvc:annotation-driven/>
     <!--    <mvc:default-servlet-handler/>-->
 

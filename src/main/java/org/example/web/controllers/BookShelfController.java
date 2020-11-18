@@ -44,6 +44,14 @@ public class BookShelfController {
         logger.info("current repository size: " + bookService.getAllBooks().size());
         return "redirect:/books/shelf";
     }
+    @PostMapping("/removebyauthor")
+    public String removeBookByAuthor(@RequestParam(value = "bookAuthorToRemove") String bookAuthorToRemove) {
+        if (bookService.removeBookByAuthor(bookAuthorToRemove)) {
+            return "redirect:/books/shelf";
+        } else {
+            return "redirect:/books/shelf_errorpage";
+        }
+    }
 
     @PostMapping("/remove")
     public String removeBook(@RequestParam(value = "bookIdToRemove") Integer bookIdToRemove) {
