@@ -3,34 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>My book shelf</title>
-    <style>
-        #root_container {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        #books {
-            width: 50%;
-            border-collapse: collapse;
-        }
-
-        table {
-            margin: 25px;
-        }
-
-        th {
-            text-align: left;
-        }
-
-        th, td {
-            border-bottom: 1px solid #ddd;
-        }
-    </style>
+    <link th:href="@{/assets/styles/style.css}" rel="stylesheet" >
 </head>
 <body>
-<div id="root_container">
+<div class="root_container">
     <form method="post" th:action="@{/users/save}" th:object="${user}">
         <table>
             <tr>
@@ -48,7 +24,7 @@
     </form>
 
 
-    <table id="users">
+    <table class="books">
         <tr>
             <th>username</th>
             <th>password</th>
@@ -59,10 +35,11 @@
             <td th:text="${user.password}"></td>
         </tr>
     </table>
-    <form method="get" th:action="@{/login}">
-        <input class="login_item" type="submit" value="exit">
-    </form>
-
 </div>
+
+<form method="get" th:action="@{/login}">
+    <input class="button_item" type="submit" value="exit">
+</form>
+
 </body>
 </html>

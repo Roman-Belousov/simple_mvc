@@ -2,12 +2,11 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link th:src="@{/resources/css/style.css}" rel="stylesheet" >
     <title>My book shelf</title>
-
+    <link th:href="@{/assets/styles/style.css}" rel="stylesheet" >
 </head>
 <body>
-<div th:class="root_container">
+<div class="root_container">
     <form method="post" th:action="@{/books/save}" th:object="${book}">
         <table>
             <tr>
@@ -54,7 +53,7 @@
     </form>
 
 
-    <table th:class="books">
+    <table class="books">
         <tr>
             <th>id</th>
             <th>author</th>
@@ -68,9 +67,10 @@
             <td th:text="${book.size}"></td>
         </tr>
     </table>
-    <form method="get" th:action="@{/login}">
-        <input class="login_item" type="submit" value="exit">
-    </form>
+
 </div>
+<form method="get" th:action="@{/login}">
+    <input class="button_item" type="submit" value="exit">
+</form>
 </body>
 </html>
