@@ -2,33 +2,31 @@
 <head>
     <title>Book shelf login</title>
     <meta charset="UTF-8">
-    <style>
-        #login_form {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
+    <link th:href="@{/assets/styles/style.css}" rel="stylesheet" >
 
-        .login_item {
-            margin-bottom: 10px;
-        }
-    </style>
 </head>
 <body>
-<div id="login_form">
+<img class="image" th:src="@{/assets/images/book_PNG51037.png}">
+<div class="root_container">
     <form method="post" th:action="@{/login/auth}" th:object="${loginform}">
-        <img class="login_item" th:src="@{/assets/images/book_PNG51037.png}">
-        <br>
-        <input class="login_item" type="text" placeholder="enter username" th:field="*{username}">
-        <br>
-        <input class="login_item" type="password" placeholder="password" th:field="*{password}">
-        <br>
-        <input class="login_item" type="submit" value="signin">
-    </form>
-<!--    <button class="login_item" onclick="document.location='/user_set.html'">signup</button>-->
-    <form method="get" th:action="@{/users/list}">
-        <input class="login_item" type="submit" value="signup">
+        <br><br>
+        <table>
+            <tr>
+                <td>
+                    <input  type="text" placeholder="enter username" th:field="*{username}">
+                </td>
+                <td>
+                    <input  type="password" placeholder="password" th:field="*{password}">
+                </td>
+                <td>
+                    <input  type="submit" value="signin">
+                </td>
+                <td>
+                   <button> <a th:href="@{/users/list}">signup</a></button>
+                </td>
+
+            </tr>
+        </table>
     </form>
 </div>
 </body>

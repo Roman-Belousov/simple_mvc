@@ -104,3 +104,15 @@
 th, td {
     padding: 20px;
 }
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    red;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    red;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    red;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    red;
+}

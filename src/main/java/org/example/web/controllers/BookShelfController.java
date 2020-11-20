@@ -30,6 +30,16 @@ public class BookShelfController {
         model.addAttribute("bookList", bookService.getAllBooks());
         return "book_shelf";
     }
+
+    @GetMapping("/shelf_by_search")
+    public String books2(Model model) {
+        logger.info("got books2 shelf");
+        model.addAttribute("book", new Book());
+        logger.info("got books3 shelf");
+        model.addAttribute("bookListBySearch", bookService.getAllBooksBySearch());
+        logger.info("got books4 shelf");
+        return "book_shelf_by_search";
+    }
     @GetMapping("/shelf_errorpage")
     public String books1(Model model) {
         logger.info("got book shelf");
@@ -52,12 +62,20 @@ public class BookShelfController {
             return "redirect:/books/shelf_errorpage";
         }
     }
-
+    @PostMapping("/listbyauthor")
+    public String listBookByAuthor(@RequestParam(value = "bookAuthorToList") String bookAuthorToList) {
+        if (bookService.listBookByAuthor(bookAuthorToList)) {
+            return "redirect:/books/shelf_by_search";
+        } else {
+            return "redirect:/books/shelf_errorpage";
+        }
+    }
     @PostMapping("/remove")
     public String removeBook(@RequestParam(value = "bookIdToRemove") Integer bookIdToRemove) {
         if (bookService.removeBookById(bookIdToRemove)) {
             return "redirect:/books/shelf";
         } else {
+
             return "redirect:/books/shelf_errorpage";
         }
     }

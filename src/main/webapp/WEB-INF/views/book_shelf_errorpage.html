@@ -1,48 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>My book shelf</title>
-    <style>
-        #root_container {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        #books {
-            width: 50%;
-            border-collapse: collapse;
-        }
-
-        table {
-            margin: 25px;
-        }
-
-        th {
-            text-align: left;
-        }
-
-        th, td {
-            border-bottom: 1px solid #ddd;
-        }
-
-    </style>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>My book shelf</title>
+        <link th:href="@{/assets/styles/error_style.css}" rel="stylesheet" >
+    </head>
 <body>
-<div id="root_container">
+<div class="root_container">
     <form method="post" th:action="@{/books/save}" th:object="${book}">
         <table>
             <tr>
                 <td>
-                    <input type="text" placeholder="author" th:field="*{author}">
+                    <input type="text"  required pattern="^[a-zA-Z]+$" th:field="*{author}">
                 </td>
                 <td>
-                    <input type="text" placeholder="book_title" th:field="*{title}">
+                    <input type="text" required  th:field="*{title}">
                 </td>
                 <td>
-                    <input type="text" placeholder="size (pages)" th:field="*{size}">
+                    <input type="text" required pattern="[0-9]{1,10}"  th:field="*{size}">
                 </td>
                 <td>
                     <input type="submit" value="save">
@@ -52,24 +28,47 @@
     </form>
 
     <form method="post" th:action="@{/books/remove}">
+        <p>remove by:</p>
         <table>
             <tr>
                 <td>
-                    <input type="text" pattern="^[ 0-9]+$" placeholder="id number" th:name="bookIdToRemove">
-                    <p style="color:red"><b>invalid id, try again</b></p>
+                    <input type="text" required pattern="^[ 0-9]+$"  placeholder="not found, try again" th:name="bookIdToRemove">
                 </td>
                 <td>
                     <input type="submit" value="remove">
-
                 </td>
             </tr>
         </table>
-
-
     </form>
 
+    <form method="post" th:action="@{/books/removebyauthor}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" required  placeholder="not found, try again" th:name="bookAuthorToRemove">
+                </td>
+                <td>
+                    <input type="submit" value="remove">
+                </td>
+            </tr>
+        </table>
+    </form>
 
-    <table id="books">
+    <form method="post" th:action="@{/books/listbyauthor}">
+        <p>search by:</p>
+        <table>
+            <tr>
+                <td>
+                    <input type="text" required   th:name="bookAuthorToList">
+                </td>
+                <td>
+                    <input type="submit" value="search">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <table class="books">
         <tr>
             <th>id</th>
             <th>author</th>
@@ -83,6 +82,10 @@
             <td th:text="${book.size}"></td>
         </tr>
     </table>
+
 </div>
+<form method="get" th:action="@{/login}">
+    <input class="button_item" type="submit" value="exit">
+</form>
 </body>
 </html>

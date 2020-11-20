@@ -12,11 +12,17 @@ import java.util.List;
 public class BookRepository implements ProjectRepository<Book> {
 
     private final Logger logger = Logger.getLogger(BookRepository.class);
-    private final List<Book> repo = new ArrayList<>();
+    private  List<Book> repo = new ArrayList<>();
+    private  List<Book> repoBySearch = new ArrayList<>();
 
     @Override
     public List<Book> retreiveAll() {
         return new ArrayList<>(repo);
+    }
+
+    @Override
+    public HashSet<Book> retreiveAllBySearch() {
+        return new HashSet<>(repoBySearch);
     }
 
     @Override
@@ -34,33 +40,59 @@ public class BookRepository implements ProjectRepository<Book> {
 
     @Override
     public boolean removeItemByAuthor(String bookAuthorToRemove) {
-        int count = 1;
+        int count = 0;
         for (Book book : retreiveAll()) {
-            if (book.getAuthor().equals(bookAuthorToRemove)) {
+            if (book.getAuthor().equals(bookAuthorToRemove) || book.getTitle().equals(bookAuthorToRemove)) {
                 logger.info("remove book completed: " + book);
                 repo.remove(book);
                 count++;
             }
         }
-            if (count == 0) {
-                return false;
-            } else {
-                return true;
+        if (count == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public boolean listItemByAuthor(String bookAuthorToList) {
+      repoBySearch.clear();
+        for (Book book : retreiveAll()) {
+            if (repoBySearch.size() < repo.size()) {
+                repoBySearch.add(book);
             }
         }
-
-
-
+    int count = 1;
+        logger.info("add book completed: "  + repoBySearch.size());
+        for(Book book : retreiveAllBySearch()){
+                    if(!book.getAuthor().equals(bookAuthorToList)){
+                        repoBySearch.remove(book);
+                    logger.info("add book completed: " + book + repoBySearch.size());
+                    count++;
+                }
+        }
+        if (count == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     @Override
     public boolean removeItemById(Integer bookIdToRemove) {
+        int count = 0;
         for (Book book : retreiveAll()) {
-            if (book.getId().equals(bookIdToRemove)) {
+            if (book.getId().equals(bookIdToRemove) || book.getSize().equals(bookIdToRemove)) {
                 logger.info("remove book completed: " + book);
-                return repo.remove(book);
+                repo.remove(book);
+                count++;
             }
         }
-        return false;
+        if (count == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
-

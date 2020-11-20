@@ -27,10 +27,11 @@
     </form>
 
     <form method="post" th:action="@{/books/remove}">
+        <p>remove by:</p>
         <table>
             <tr>
                 <td>
-                    <input type="text" required pattern="^[ 0-9]+$" placeholder="id number" th:name="bookIdToRemove">
+                    <input type="text" required pattern="^[ 0-9]+$" placeholder="id number or page quantity" th:name="bookIdToRemove">
                 </td>
                 <td>
                     <input type="submit" value="remove">
@@ -43,7 +44,7 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" required pattern="^[a-zA-Z]+$" placeholder="author name" th:name="bookAuthorToRemove">
+                    <input type="text" required  placeholder="author name or book title" th:name="bookAuthorToRemove">
                 </td>
                 <td>
                     <input type="submit" value="remove">
@@ -52,6 +53,19 @@
         </table>
     </form>
 
+    <form method="post" th:action="@{/books/listbyauthor}">
+        <p>search by:</p>
+        <table>
+            <tr>
+                <td>
+                    <input type="text" required  placeholder="author name or title" th:name="bookAuthorToList">
+                </td>
+                <td>
+                    <input type="submit" value="search">
+                </td>
+            </tr>
+        </table>
+    </form>
 
     <table class="books">
         <tr>
