@@ -2,7 +2,6 @@ package org.example.web.dto;
 
 public class User {
 
-
     private String username;
     private String password;
 

@@ -32,17 +32,15 @@ public class BookShelfController {
     }
 
     @GetMapping("/shelf_by_search")
-    public String books2(Model model) {
-        logger.info("got books2 shelf");
+    public String booksSearch(Model model) {
+        logger.info("found on the shelf");
         model.addAttribute("book", new Book());
-        logger.info("got books3 shelf");
         model.addAttribute("bookListBySearch", bookService.getAllBooksBySearch());
-        logger.info("got books4 shelf");
         return "book_shelf_by_search";
     }
     @GetMapping("/shelf_errorpage")
     public String books1(Model model) {
-        logger.info("got book shelf");
+        logger.info(" not got book shelf");
         model.addAttribute("book", new Book());
         model.addAttribute("bookList", bookService.getAllBooks());
         return "book_shelf_errorpage";
@@ -75,7 +73,6 @@ public class BookShelfController {
         if (bookService.removeBookById(bookIdToRemove)) {
             return "redirect:/books/shelf";
         } else {
-
             return "redirect:/books/shelf_errorpage";
         }
     }

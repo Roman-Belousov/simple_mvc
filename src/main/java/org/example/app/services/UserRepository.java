@@ -20,11 +20,6 @@ public class UserRepository implements ProjectRepository<User> {
     }
 
     @Override
-    public HashSet<User> retreiveAllBySearch() {
-        return null;
-    }
-
-    @Override
     public void store(User user) {
 
         if (!user.getUsername().isBlank() && !user.getPassword().isBlank()) {
@@ -33,6 +28,11 @@ public class UserRepository implements ProjectRepository<User> {
         } else {
             return;
         }
+    }
+
+    @Override
+    public HashSet<User> retreiveAllBySearch() {
+        return null;
     }
 
     @Override

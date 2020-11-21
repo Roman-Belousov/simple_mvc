@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
-    private final ProjectRepository<User> userRepo;
 
+    private final ProjectRepository<User> userRepo;
     private  Logger logger = Logger.getLogger(LoginService.class);
 
     public LoginService(ProjectRepository<User> userRepo) {
@@ -23,11 +23,8 @@ public class LoginService {
                 return true;
             }
         }
-
         return false;
-
-
+       }
     }
-        }
 
 

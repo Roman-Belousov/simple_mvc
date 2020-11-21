@@ -31,12 +31,10 @@ public class UserController {
         return "user_list";
     }
 
-
     @PostMapping("/save")
     public String saveUser(User user) {
         userService.saveUser(user);
         logger.info("current repository size: " + userService.getAllUsers().size());
         return "redirect:/users/list";
     }
-
     }

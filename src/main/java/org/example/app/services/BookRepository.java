@@ -12,7 +12,7 @@ import java.util.List;
 public class BookRepository implements ProjectRepository<Book> {
 
     private final Logger logger = Logger.getLogger(BookRepository.class);
-    private  List<Book> repo = new ArrayList<>();
+    private final List<Book> repo = new ArrayList<>();
     private  List<Book> repoBySearch = new ArrayList<>();
 
     @Override
@@ -28,11 +28,9 @@ public class BookRepository implements ProjectRepository<Book> {
     @Override
     public void store(Book book) {
         book.setId(book.hashCode());
-        // logger.info("store new book: " + book);
+         logger.info("store new book: " + book);
         if (book.getSize() != null && !book.getAuthor().isBlank() && !book.getTitle().isBlank()) {
             repo.add(book);
-            logger.info("store new book: " + book);
-
         } else {
             return;
         }
@@ -64,11 +62,10 @@ public class BookRepository implements ProjectRepository<Book> {
             }
         }
     int count = 1;
-        logger.info("add book completed: "  + repoBySearch.size());
+        logger.info("add book in temp repo completed: "  + repoBySearch.size());
         for(Book book : retreiveAllBySearch()){
-                    if(!book.getAuthor().equals(bookAuthorToList)){
+                    if(!book.getAuthor().equals(bookAuthorToList) && !book.getTitle().equals(bookAuthorToList)){
                         repoBySearch.remove(book);
-                    logger.info("add book completed: " + book + repoBySearch.size());
                     count++;
                 }
         }

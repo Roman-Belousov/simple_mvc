@@ -3,7 +3,6 @@ package org.example.app.services;
 import org.example.web.dto.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
 import java.util.List;
 
@@ -22,6 +21,7 @@ public class BookService {
     public List<Book> getAllBooks() {
         return bookRepo.retreiveAll();
     }
+
     public HashSet<Book> getAllBooksBySearch() {
         return bookRepoBySearch.retreiveAllBySearch();
     }
