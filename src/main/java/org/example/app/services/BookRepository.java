@@ -2,18 +2,21 @@ package org.example.app.services;
 
 import org.apache.log4j.Logger;
 import org.example.web.dto.Book;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 @Repository
-public class BookRepository implements ProjectRepository<Book> {
+public class BookRepository implements ProjectRepository<Book>, ApplicationContextAware {
 
     private final Logger logger = Logger.getLogger(BookRepository.class);
     private final List<Book> repo = new ArrayList<>();
     private  List<Book> repoBySearch = new ArrayList<>();
+    private ApplicationContext context;
 
     @Override
     public List<Book> retreiveAll() {
@@ -27,7 +30,7 @@ public class BookRepository implements ProjectRepository<Book> {
 
     @Override
     public void store(Book book) {
-        book.setId(book.hashCode());
+        book.setId(context.getBean(IdProvider.class).provideId(book));
          logger.info("store new book: " + book);
         if (book.getSize() != null && !book.getAuthor().isBlank() && !book.getTitle().isBlank()) {
             repo.add(book);
@@ -77,7 +80,7 @@ public class BookRepository implements ProjectRepository<Book> {
     }
 
     @Override
-    public boolean removeItemById(Integer bookIdToRemove) {
+    public boolean removeItemById(String bookIdToRemove) {
         int count = 0;
         for (Book book : retreiveAll()) {
             if (book.getId().equals(bookIdToRemove) || book.getSize().equals(bookIdToRemove)) {
@@ -91,5 +94,17 @@ public class BookRepository implements ProjectRepository<Book> {
         } else {
             return true;
         }
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.context = applicationContext;
+    }
+    private void defaultInit(){
+        logger.info("default INIT in book repo bean");
+    }
+
+    private void defaultDestroy(){
+        logger.info("default DESTROY in book repo bean");
     }
 }
