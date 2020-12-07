@@ -14,7 +14,7 @@
                     <input type="text"  required pattern="^[a-zA-Z]+$" placeholder="username" th:field="*{username}">
                 </td>
                 <td>
-                    <input type="text" required placeholder="password" th:field="*{password}">
+                    <input type="password" required placeholder="password" th:field="*{password}">
                 </td>
                 <td>
                     <input type="submit" value="add new user">
@@ -32,7 +32,7 @@
         </tr>
         <tr th:each="user : ${userList}">
             <td th:text="${user.username}"></td>
-            <td th:text="${user.password}"></td>
+            <td th:readonly="${user.password}"></td>
         </tr>
     </table>
 </div>

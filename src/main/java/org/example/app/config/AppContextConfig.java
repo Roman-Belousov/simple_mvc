@@ -1,4 +1,4 @@
-package org.example.web.config;
+package org.example.app.config;
 
 import org.example.app.services.IdProvider;
 import org.springframework.context.annotation.Bean;

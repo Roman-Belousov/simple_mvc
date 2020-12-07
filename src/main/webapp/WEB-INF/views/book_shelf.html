@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>My book shelf</title>
-    <link th:href="@{/assets/styles/style.css}" rel="stylesheet" >
+    <link th:href="@{/assets/styles/style.css}" rel="stylesheet">
 </head>
 <body>
 <div class="root_container">
@@ -11,14 +11,18 @@
         <table>
             <tr>
                 <td>
-                    <input type="text"  required pattern="^[a-zA-Z]+$" placeholder="author" th:field="*{author}">
+                    <input type="text" required pattern="^[a-zA-Z]+$" placeholder="author" th:field="*{author}">
                 </td>
                 <td>
                     <input type="text" required placeholder="book_title" th:field="*{title}">
                 </td>
                 <td>
-                    <input type="text" required pattern="[0-9]{1,10}" placeholder="size (pages)" th:field="*{size}">
+                    <input type="text" required placeholder="size (pages)" th:field="*{size}">
+                <td th:if="${#fields.hasErrors()}">
+                <p style="color:red" >input digit less than 4 sings</p>
+            </td>
                 </td>
+
                 <td>
                     <input type="submit" value="save">
                 </td>
@@ -26,12 +30,16 @@
         </table>
     </form>
 
-    <form method="post" th:action="@{/books/remove}">
+    <form method="post" th:action="@{/books/remove}" th:object="${bookIdToRemove}">
         <p>remove by:</p>
         <table>
             <tr>
                 <td>
-                    <input type="text" required  placeholder="id number or page quantity" th:name="bookIdToRemove">
+                    <input type="text" required placeholder="id number or page quantity" th:field="*{id}">
+                </td>
+                </td>
+                <td th:if="${#fields.hasErrors()}">
+                    <p style="color:red">Wrong id or not found</p>
                 </td>
                 <td>
                     <input type="submit" value="remove">
@@ -44,7 +52,7 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" required  placeholder="author name or book title" th:name="bookAuthorToRemove">
+                    <input type="text" required placeholder="author name or book title" th:name="bookAuthorToRemove">
                 </td>
                 <td>
                     <input type="submit" value="remove">
@@ -58,7 +66,7 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" required  placeholder="author name or title" th:name="bookAuthorToList">
+                    <input type="text" required placeholder="author name or title" th:name="bookAuthorToList">
                 </td>
                 <td>
                     <input type="submit" value="search">

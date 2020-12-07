@@ -27,12 +27,12 @@
         </table>
     </form>
 
-    <form method="post" th:action="@{/books/remove}">
+    <form method="post" th:action="@{/books/remove}" >
         <p>remove by:</p>
         <table>
             <tr>
                 <td>
-                    <input type="text" required pattern="^[ 0-9]+$"  placeholder="not found, try again" th:name="bookIdToRemove">
+                    <input type="text" required   placeholder="not found, try again" th:name="bookIdToRemove">
                 </td>
                 <td>
                     <input type="submit" value="remove">

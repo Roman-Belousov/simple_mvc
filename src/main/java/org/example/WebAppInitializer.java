@@ -1,7 +1,7 @@
 package org.example;
 
 import org.apache.log4j.Logger;
-import org.example.web.config.AppContextConfig;
+import org.example.app.config.AppContextConfig;
 import org.example.web.config.WebContextConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
