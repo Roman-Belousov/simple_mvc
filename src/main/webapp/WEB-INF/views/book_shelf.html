@@ -11,13 +11,13 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" required pattern="^[a-zA-Z]+$" placeholder="author" th:field="*{author}">
+                    <input type="text"  placeholder="author" th:field="*{author}">
                 </td>
                 <td>
-                    <input type="text" required placeholder="book_title" th:field="*{title}">
+                    <input type="text"  placeholder="book_title" th:field="*{title}">
                 </td>
                 <td>
-                    <input type="text" required placeholder="size (pages)" th:field="*{size}">
+                    <input type="text"  placeholder="size (pages)" th:field="*{size}">
                 <td th:if="${#fields.hasErrors()}">
                 <p style="color:red" >input digit less than 4 sings</p>
             </td>
@@ -35,7 +35,7 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" required placeholder="id number or page quantity" th:field="*{id}">
+                    <input type="text"  placeholder="id number or page quantity" th:field="*{id}">
                 </td>
                 </td>
                 <td th:if="${#fields.hasErrors()}">
@@ -52,7 +52,7 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" required placeholder="author name or book title" th:name="bookAuthorToRemove">
+                    <input type="text"  placeholder="author name or book title" th:name="bookAuthorToRemove">
                 </td>
                 <td>
                     <input type="submit" value="remove">
@@ -66,10 +66,23 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" required placeholder="author name or title" th:name="bookAuthorToList">
+                    <input type="text"  placeholder="author name or title" th:name="bookAuthorToList">
                 </td>
                 <td>
                     <input type="submit" value="search">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form method="post" th:action="@{/books/uploadFile}" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>
+                   <input type="file" name="file"/>
+                </td>
+                <td>
+                 <input type="submit" value="Upload">
                 </td>
             </tr>
         </table>

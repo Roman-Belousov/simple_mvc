@@ -46,7 +46,7 @@ public class UserRepository implements ProjectRepository<User> {
     }
 
     @Override
-    public boolean removeItemById(String bookIdToRemove) {
+    public boolean removeItemById(Integer bookIdToRemove) {
         return false;
     }
 

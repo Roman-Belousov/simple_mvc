@@ -15,6 +15,6 @@ public interface ProjectRepository<T> {
 
     boolean listItemByAuthor(String bookAuthorToList);
 
-    boolean removeItemById(String bookIdToRemove);
+    boolean removeItemById(Integer bookIdToRemove);
 
 }
