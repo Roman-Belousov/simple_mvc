@@ -12,13 +12,19 @@
             <tr>
                 <td>
                     <input type="text"  placeholder="author" th:field="*{author}">
+                <td th:if="${#fields.hasErrors('author')}">
+                    <p style="color:red" >Enter author name</p>
+                </td>
                 </td>
                 <td>
                     <input type="text"  placeholder="book_title" th:field="*{title}">
+                <td th:if="${#fields.hasErrors('title')}">
+                    <p style="color:red" >Enter book title</p>
+                </td>
                 </td>
                 <td>
                     <input type="text"  placeholder="size (pages)" th:field="*{size}">
-                <td th:if="${#fields.hasErrors()}">
+                <td th:if="${#fields.hasErrors('size')}">
                 <p style="color:red" >input digit less than 4 sings</p>
             </td>
                 </td>
@@ -37,8 +43,8 @@
                 <td>
                     <input type="text"  placeholder="id number or page quantity" th:field="*{id}">
                 </td>
-                </td>
-                <td th:if="${#fields.hasErrors()}">
+
+                <td th:if="${#fields.hasErrors('id')}">
                     <p style="color:red">Wrong id or not found</p>
                 </td>
                 <td>
@@ -48,11 +54,15 @@
         </table>
     </form>
 
-    <form method="post" th:action="@{/books/removebyauthor}">
+    <form method="post" th:action="@{/books/removebyauthor}" th:object="${bookAuthorToRemove}">
         <table>
             <tr>
                 <td>
-                    <input type="text"  placeholder="author name or book title" th:name="bookAuthorToRemove">
+                    <input type="text"  placeholder="author name or book title" th:field="*{author}">
+                </td>
+
+                <td th:if="${#fields.hasErrors('author')}">
+                    <p style="color:red">Wrong author name</p>
                 </td>
                 <td>
                     <input type="submit" value="remove">

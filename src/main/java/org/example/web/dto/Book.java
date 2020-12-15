@@ -1,13 +1,22 @@
 package org.example.web.dto;
 
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class Book {
 
 
     private Integer id;
+   @NotEmpty
+   @Pattern(regexp="^[a-zA-Z]+$")
     private String author;
+    @NotEmpty
+    @Length(min=1, max=100)
     private String title;
     @Digits(integer = 4, fraction = 0)
     private Integer size;

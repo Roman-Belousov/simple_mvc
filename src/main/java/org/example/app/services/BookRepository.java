@@ -66,19 +66,13 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
 
     @Override
     public boolean removeItemByAuthor(String bookAuthorToRemove) {
-        int count = 0;
-        for (Book book : retreiveAll()) {
-            if (book.getAuthor().equals(bookAuthorToRemove) || book.getTitle().equals(bookAuthorToRemove)) {
-                logger.info("remove book completed: " + book);
-                //repo.remove(book);
-                count++;
-            }
-        }
-        if (count == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("author", bookAuthorToRemove);
+        jdbcTemplate.update("DELETE FROM books WHERE author = :author", parameterSource);
+
+        logger.info("remove book completed");
+
+        return true;
     }
 
     @Override
