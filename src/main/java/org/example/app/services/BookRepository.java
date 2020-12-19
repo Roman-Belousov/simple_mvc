@@ -36,7 +36,7 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
             book.setId(rs.getInt("id"));
             book.setAuthor(rs.getString("author"));
             book.setTitle(rs.getString("title"));
-            book.setSize(rs.getInt("size"));
+            book.setPagesize(rs.getInt("pagesize"));
             return book;
         });
 
@@ -53,8 +53,8 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("author", book.getAuthor());
         parameterSource.addValue("title", book.getTitle());
-        parameterSource.addValue("size", book.getSize());
-        jdbcTemplate.update("INSERT INTO books(author,title,size) VALUES(:author, :title, :size)", parameterSource);
+        parameterSource.addValue("pagesize", book.getPagesize());
+        jdbcTemplate.update("INSERT INTO books(author,title,pagesize) VALUES(:author, :title, :pagesize)", parameterSource);
 
         logger.info("store new book: " + book);
 //        if (book.getSize() != null && !book.getAuthor().isBlank() && !book.getTitle().isBlank()) {
@@ -79,7 +79,7 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
     public boolean listItemByAuthor(String bookAuthorToList) {
         repoBySearch.clear();
         for (Book book : retreiveAll()) {
-            if (repoBySearch.size() < book.getSize()) {
+            if (repoBySearch.size() < book.getPagesize()) {
                 repoBySearch.add(book);
             }
         }
@@ -102,20 +102,28 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
     public boolean removeItemById(Integer bookIdToRemove) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("id", bookIdToRemove);
-        jdbcTemplate.update("DELETE FROM books WHERE id = :id", parameterSource);
-//        int count = 0;
-//        for (Book book : retreiveAll()) {
-//            if (book.getId().equals(bookIdToRemove) || book.getSize().equals(bookIdToRemove)) {
-        logger.info("remove book completed");
-        // repo.remove(book);
-//                count++;
-//            }
-//        }
-//        if (count == 0) {
-//            return false;
-//        } else {
-        return true;
-    }
+        parameterSource.addValue("pagesize", bookIdToRemove);
+        logger.info("remove book precompleted");
+        int count = 0;
+        for (Book book : retreiveAll()) {
+            if (book.getId().equals(bookIdToRemove)) {
+                jdbcTemplate.update("DELETE FROM books WHERE id = :id ", parameterSource);
+                logger.info("remove bookbyID precompleted");
+            }else{
+              if (book.getPagesize().equals(bookIdToRemove))
+                    jdbcTemplate.update("DELETE FROM books WHERE pagesize = :pagesize ", parameterSource);
+                logger.info("remove bookbySIZE precompleted");
+                count++;
+                logger.info("remove book completed");
+            }
+        }
+            if (count == 0) {
+                logger.info("remove book notcompleted");
+                return false;
+            } else {
+                return true;
+            }
+        }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

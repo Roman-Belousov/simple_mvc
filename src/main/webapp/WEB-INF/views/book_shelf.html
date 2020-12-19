@@ -23,8 +23,8 @@
                 </td>
                 </td>
                 <td>
-                    <input type="text"  placeholder="size (pages)" th:field="*{size}">
-                <td th:if="${#fields.hasErrors('size')}">
+                    <input type="text"  placeholder="size (pages)" th:field="*{pagesize}">
+                <td th:if="${#fields.hasErrors('pagesize')}">
                 <p style="color:red" >input digit less than 4 sings</p>
             </td>
                 </td>
@@ -89,7 +89,7 @@
         <table>
             <tr>
                 <td>
-                   <input type="file" name="file"/>
+                   <input type="file"  name="file"/>
                 </td>
                 <td>
                  <input type="submit" value="Upload">
@@ -109,7 +109,7 @@
             <td th:text="${book.id}"></td>
             <td th:text="${book.author}"></td>
             <td th:text="${book.title}"></td>
-            <td th:text="${book.size}"></td>
+            <td th:text="${book.pagesize}"></td>
         </tr>
     </table>
 

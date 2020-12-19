@@ -19,7 +19,7 @@ public class Book {
     @Length(min=1, max=100)
     private String title;
     @Digits(integer = 4, fraction = 0)
-    private Integer size;
+    private Integer pagesize;
 
 
     public Integer getId() {
@@ -46,12 +46,12 @@ public class Book {
         this.title = title;
     }
 
-    public Integer getSize() {
-        return size;
+    public Integer getPagesize() {
+        return pagesize;
     }
 
-    public void setSize(Integer size) {
-        this.size = size;
+    public void setPagesize(Integer pagesize) {
+        this.pagesize = pagesize;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Book {
                 "id=" + id +
                 ", author='" + author + '\'' +
                 ", title='" + title + '\'' +
-                ", size=" + size +
+                ", size=" + pagesize +
                 '}';
     }
 }
