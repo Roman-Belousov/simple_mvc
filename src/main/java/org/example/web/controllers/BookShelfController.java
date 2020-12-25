@@ -1,9 +1,9 @@
 package org.example.web.controllers;
 
 import org.apache.log4j.Logger;
-import org.example.app.exceptions.BookShelfLoginException;
 import org.example.app.services.BookService;
 import org.example.web.dto.Book;
+import org.example.web.dto.BookAuthorToSearch;
 import org.example.web.dto.BookIdToRemove;
 import org.example.web.dto.BookAuthorToRemove;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import javax.validation.Valid;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 @Controller
 @RequestMapping(value = "/books")
@@ -40,16 +39,36 @@ public class BookShelfController {
         model.addAttribute("book", new Book());
         model.addAttribute("bookIdToRemove", new BookIdToRemove());
         model.addAttribute("bookAuthorToRemove", new BookAuthorToRemove());
+        model.addAttribute("bookAuthorToSearch", new BookAuthorToSearch());
         model.addAttribute("bookList", bookService.getAllBooks());
         return "book_shelf";
     }
-
     @GetMapping("/shelf_by_search")
-    public String booksSearch(Model model) {
-        logger.info("found on the shelf");
+    public String books1( Model model) {
+        logger.info(model);
         model.addAttribute("book", new Book());
-        model.addAttribute("bookListBySearch", bookService.getAllBooksBySearch());
+        model.addAttribute("bookIdToRemove", new BookIdToRemove());
+        model.addAttribute("bookAuthorToRemove", new BookAuthorToRemove());
+        model.addAttribute("bookAuthorToSearch", new BookAuthorToSearch());
+        model.addAttribute("bookList", bookService.??????????????????????????????????????????;
+        logger.info(new BookAuthorToSearch());
         return "book_shelf_by_search";
+    }
+
+    @PostMapping("/searchbyauthor")
+    public String searchBookByAuthor(BookAuthorToSearch bookAuthorToSearch, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            logger.info(" bindingResult has error in searchController");
+            model.addAttribute("book", new Book());
+            model.addAttribute("bookIdToRemove", new BookIdToRemove());
+            model.addAttribute("bookAuthorToRemove", new BookAuthorToRemove());
+            model.addAttribute("bookList", bookService.getAllBooks());
+            return "book_shelf";
+        } else {
+            logger.info(" bindingResult hasNOT error in searchController" + bookAuthorToSearch.getAuthorForSearch());
+            bookService.searchBookByAuthor(bookAuthorToSearch.getAuthorForSearch());
+            return "redirect:/books/shelf_by_search";
+        }
     }
 
     @PostMapping("/save")
@@ -81,22 +100,9 @@ public class BookShelfController {
             return "redirect:/books/shelf";
         }
     }
-//    public String removeBookByAuthor(@RequestParam(value = "bookAuthorToRemove") String bookAuthorToRemove) {
-//        if (bookService.removeBookByAuthor(bookAuthorToRemove)) {
-//            return "redirect:/books/shelf";
-//        } else {
-//            return "redirect:/books/shelf_errorpage";
-//        }
-//    }
 
-    @PostMapping("/listbyauthor")
-    public String listBookByAuthor(@RequestParam(value = "bookAuthorToList") String bookAuthorToList) {
-        if (bookService.listBookByAuthor(bookAuthorToList)) {
-            return "redirect:/books/shelf_by_search";
-        } else {
-            return "redirect:/books/shelf_errorpage";
-        }
-    }
+
+
 
     @PostMapping("/remove")
     public String removeBook(@Valid BookIdToRemove bookIdToRemove, BindingResult bindingResult, Model model) {

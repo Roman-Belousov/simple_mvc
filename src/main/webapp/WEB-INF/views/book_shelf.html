@@ -62,7 +62,7 @@
                 </td>
 
                 <td th:if="${#fields.hasErrors('author')}">
-                    <p style="color:red">Wrong author name</p>
+                    <p style="color:red">Wrong author name or not found</p>
                 </td>
                 <td>
                     <input type="submit" value="remove">
@@ -71,12 +71,12 @@
         </table>
     </form>
 
-    <form method="post" th:action="@{/books/listbyauthor}">
+    <form method="post" th:action="@{/books/searchbyauthor}" th:object="${bookAuthorToSearch}">
         <p>search by:</p>
         <table>
             <tr>
                 <td>
-                    <input type="text"  placeholder="author name or title" th:name="bookAuthorToList">
+                    <input type="text"  placeholder="author name or title" th:name="authorForSearch">
                 </td>
                 <td>
                     <input type="submit" value="search">

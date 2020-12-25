@@ -1,19 +1,18 @@
 package org.example.app.services;
 
-import java.util.HashSet;
+import org.example.web.dto.Book;
+
 import java.util.List;
 
 public interface ProjectRepository<T> {
 
     List<T> retreiveAll();
 
-    HashSet<T> retreiveAllBySearch();
-
     void store(T book);
 
-    boolean removeItemByAuthor(String bookAuthorToRemove);
+    List<T> searchItemByAuthor(String bookAuthorToSearch);
 
-    boolean listItemByAuthor(String bookAuthorToList);
+    boolean removeItemByAuthor(String bookAuthorToRemove);
 
     boolean removeItemById(Integer bookIdToRemove);
 

@@ -5,7 +5,6 @@ import org.example.web.dto.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Repository
@@ -31,17 +30,13 @@ public class UserRepository implements ProjectRepository<User> {
     }
 
     @Override
-    public HashSet<User> retreiveAllBySearch() {
-        return null;
+    public List<User> searchItemByAuthor(String bookAuthorToSearch) {
+        return new ArrayList<>();
+
     }
 
     @Override
     public boolean removeItemByAuthor(String bookAuthorToRemove) {
-        return false;
-    }
-
-    @Override
-    public boolean listItemByAuthor(String bookAuthorToList) {
         return false;
     }
 

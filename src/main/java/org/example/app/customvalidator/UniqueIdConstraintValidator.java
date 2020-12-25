@@ -2,8 +2,6 @@ package org.example.app.customvalidator;
 
 import org.apache.log4j.Logger;
 import org.example.app.services.BookRepository;
-import org.example.app.services.BookService;
-import org.example.web.controllers.BookShelfController;
 import org.example.web.dto.Book;
 import org.example.web.dto.BookIdToRemove;
 import org.springframework.beans.factory.annotation.Autowired;

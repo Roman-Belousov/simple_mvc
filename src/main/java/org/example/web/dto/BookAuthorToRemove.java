@@ -1,8 +1,11 @@
 package org.example.web.dto;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import org.example.app.customvalidator.UniqueAuthor;
 
+import javax.validation.constraints.NotEmpty;
+
+
+@UniqueAuthor
 public class BookAuthorToRemove {
 
     @NotEmpty

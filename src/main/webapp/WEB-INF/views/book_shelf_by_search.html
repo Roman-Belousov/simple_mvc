@@ -15,11 +15,11 @@
             <th>title</th>
             <th>size</th>
         </tr>
-        <tr th:each="book : ${bookListBySearch}">
+        <tr th:each="book : ${bookList}">
             <td th:text="${book.id}"></td>
             <td th:text="${book.author}"></td>
             <td th:text="${book.title}"></td>
-            <td th:text="${book.size}"></td>
+            <td th:text="${book.pagesize}"></td>
         </tr>
     </table>
 
