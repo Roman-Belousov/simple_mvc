@@ -1,5 +1,6 @@
 package org.example.web.dto;
 
+import org.example.app.customvalidator.SearchUniqueAuthor;
 import org.example.app.customvalidator.UniqueAuthor;
 
 import javax.validation.constraints.NotEmpty;

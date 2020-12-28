@@ -8,6 +8,10 @@ import org.example.web.dto.BookIdToRemove;
 import org.example.web.dto.BookAuthorToRemove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 
 @Controller
 @RequestMapping(value = "/books")
@@ -27,6 +29,7 @@ public class BookShelfController {
     private Logger logger = Logger.getLogger(BookShelfController.class);
 
     private BookService bookService;
+
 
     @Autowired
     public BookShelfController(BookService bookService) {
@@ -41,33 +44,31 @@ public class BookShelfController {
         model.addAttribute("bookAuthorToRemove", new BookAuthorToRemove());
         model.addAttribute("bookAuthorToSearch", new BookAuthorToSearch());
         model.addAttribute("bookList", bookService.getAllBooks());
+        logger.info(model);
         return "book_shelf";
     }
-    @GetMapping("/shelf_by_search")
-    public String books1( Model model) {
-        logger.info(model);
-        model.addAttribute("book", new Book());
-        model.addAttribute("bookIdToRemove", new BookIdToRemove());
-        model.addAttribute("bookAuthorToRemove", new BookAuthorToRemove());
-        model.addAttribute("bookAuthorToSearch", new BookAuthorToSearch());
-        model.addAttribute("bookList", bookService.??????????????????????????????????????????;
-        logger.info(new BookAuthorToSearch());
-        return "book_shelf_by_search";
-    }
+
 
     @PostMapping("/searchbyauthor")
-    public String searchBookByAuthor(BookAuthorToSearch bookAuthorToSearch, BindingResult bindingResult, Model model) {
+    public String searchBookByAuthor(@Valid BookAuthorToSearch bookAuthorToSearch, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             logger.info(" bindingResult has error in searchController");
             model.addAttribute("book", new Book());
             model.addAttribute("bookIdToRemove", new BookIdToRemove());
             model.addAttribute("bookAuthorToRemove", new BookAuthorToRemove());
             model.addAttribute("bookList", bookService.getAllBooks());
+            logger.info(model);
             return "book_shelf";
         } else {
-            logger.info(" bindingResult hasNOT error in searchController" + bookAuthorToSearch.getAuthorForSearch());
+            logger.info(" bindingResult has NOT error");
             bookService.searchBookByAuthor(bookAuthorToSearch.getAuthorForSearch());
-            return "redirect:/books/shelf_by_search";
+            model.addAttribute("book", new Book());
+            model.addAttribute("bookIdToRemove", new BookIdToRemove());
+            model.addAttribute("bookAuthorToRemove", new BookAuthorToRemove());
+            model.addAttribute("bookAuthorToSearch", new BookAuthorToSearch());
+            model.addAttribute("bookList", bookService.searchBookByAuthor(bookAuthorToSearch.getAuthorForSearch()));
+            return "book_shelf_by_search";
+
         }
     }
 
@@ -77,6 +78,7 @@ public class BookShelfController {
             model.addAttribute("book", book);
             model.addAttribute("bookIdToRemove", new BookIdToRemove());
             model.addAttribute("bookAuthorToRemove", new BookAuthorToRemove());
+            model.addAttribute("bookAuthorToSearch", new BookAuthorToSearch());
             model.addAttribute("bookList", bookService.getAllBooks());
             return "book_shelf";
         } else {
@@ -92,6 +94,7 @@ public class BookShelfController {
             logger.info(" bindingResult has error");
             model.addAttribute("book", new Book());
             model.addAttribute("bookIdToRemove", new BookIdToRemove());
+            model.addAttribute("bookAuthorToSearch", new BookAuthorToSearch());
             model.addAttribute("bookList", bookService.getAllBooks());
             return "book_shelf";
         } else {
@@ -101,15 +104,13 @@ public class BookShelfController {
         }
     }
 
-
-
-
     @PostMapping("/remove")
     public String removeBook(@Valid BookIdToRemove bookIdToRemove, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            logger.info(" bindingResult has error");
+            logger.info(" bindingResult has error" + bindingResult.toString());
             model.addAttribute("book", new Book());
             model.addAttribute("bookAuthorToRemove", new BookAuthorToRemove());
+            model.addAttribute("bookAuthorToSearch", new BookAuthorToSearch());
             model.addAttribute("bookList", bookService.getAllBooks());
             return "book_shelf";
         } else {
@@ -124,8 +125,8 @@ public class BookShelfController {
         if (file.isEmpty()) {
             return "errors/500";
         } else {
-        String name = file.getOriginalFilename();
-        byte[] bytes = file.getBytes();
+            String name = file.getOriginalFilename();
+            byte[] bytes = file.getBytes();
 
             //create dir
             String rootPath = System.getProperty("catalina.home");
@@ -144,6 +145,27 @@ public class BookShelfController {
 
             return "redirect:/books/shelf";
         }
+    }
 
+    @RequestMapping("/download")
+    public ResponseEntity<Object> downloadFile() throws Exception {
+        logger.info("start download");
+        String filename = "C:\\Program Files\\Tomcat\\Ekkel_Filosofiya_java.epub";
+        File file1 = new File(filename);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file1));
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file1.getName()));
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        ResponseEntity<Object> responseEntity = ResponseEntity.ok().headers(headers).contentLength(file1.length()).contentType(
+                MediaType.parseMediaType("application/txt")).body(resource);
+
+        return responseEntity;
     }
 }
+
+
+

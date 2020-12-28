@@ -1,16 +1,16 @@
 package org.example.app.customvalidator;
 
-
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.*;
-import javax.validation.*;
 
 @Documented
-@Constraint(validatedBy = UniqueIdConstraintValidator.class)
+@Constraint(validatedBy = UniqueAuthorSearchConstraintValidator.class)
 @Target( { ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueId {
+public @interface SearchUniqueAuthor {
 
-    String message() default "My custom validator";
+    String message() default "My custom validator ";
 
     Class<?>[] groups() default {};
 

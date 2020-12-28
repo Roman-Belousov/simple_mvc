@@ -18,6 +18,7 @@ public class Book {
     @NotEmpty
     @Length(min=1, max=100)
     private String title;
+    @NotNull
     @Digits(integer = 4, fraction = 0)
     private Integer pagesize;
 

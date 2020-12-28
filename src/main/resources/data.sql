@@ -1,1 +1,1 @@
-INSERT INTO books(author,title,pagesize) VALUES ('Dostoevskiy','Idiot',400)
+INSERT INTO books(author,title,pagesize) VALUES ('Bruce Eckel','Thinking in Java',1482)

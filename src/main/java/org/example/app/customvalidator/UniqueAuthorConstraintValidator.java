@@ -27,18 +27,23 @@ public class UniqueAuthorConstraintValidator implements ConstraintValidator<Uniq
 
     @Override
     public boolean isValid(BookAuthorToRemove bookAuthorToRemove, ConstraintValidatorContext ctx) {
+        int count = 0;
         for (Book book : bookRepository.retreiveAll()) {
-            if (!book.getAuthor().equals(bookAuthorToRemove.getAuthor()) && !book.getTitle().equals(bookAuthorToRemove.getAuthor())) {
+            if (book.getAuthor().equals(bookAuthorToRemove.getAuthor()) || book.getTitle().equals(bookAuthorToRemove.getAuthor())) {
                 ctx.disableDefaultConstraintViolation();
                 ctx.buildConstraintViolationWithTemplate(
                         "{My custom validator}")
                         .addPropertyNode("author").addConstraintViolation();
-                logger.info("Costom validator return false " + book.getAuthor() + " " + bookAuthorToRemove.getAuthor());
-                return false;
+                count++;
             }
         }
-        logger.info("Costom validator return true ");
-        return true;
+        if (count == 0) {
+            logger.info("Custom validator return false " + count);
+            return false;
+        } else {
+            logger.info("Costom validator return true ");
+            return true;
+        }
     }
 }
 

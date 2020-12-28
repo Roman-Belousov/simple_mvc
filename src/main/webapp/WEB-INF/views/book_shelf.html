@@ -44,7 +44,7 @@
                     <input type="text"  placeholder="id number or page quantity" th:field="*{id}">
                 </td>
 
-                <td th:if="${#fields.hasErrors('id')}">
+                <td th:if="${#fields.hasErrors()}">
                     <p style="color:red">Wrong id or not found</p>
                 </td>
                 <td>
@@ -61,7 +61,7 @@
                     <input type="text"  placeholder="author name or book title" th:field="*{author}">
                 </td>
 
-                <td th:if="${#fields.hasErrors('author')}">
+                <td th:if="${#fields.hasErrors()}">
                     <p style="color:red">Wrong author name or not found</p>
                 </td>
                 <td>
@@ -76,7 +76,10 @@
         <table>
             <tr>
                 <td>
-                    <input type="text"  placeholder="author name or title" th:name="authorForSearch">
+                    <input type="text"  placeholder="author name or title" th:field="*{authorForSearch}">
+                </td>
+                <td th:if="${#fields.hasErrors()}">
+                    <p style="color:red">Wrong author name or not found</p>
                 </td>
                 <td>
                     <input type="submit" value="search">
@@ -104,18 +107,26 @@
             <th>author</th>
             <th>title</th>
             <th>size</th>
+            <th>actions</th>
+
         </tr>
         <tr th:each="book : ${bookList}">
             <td th:text="${book.id}"></td>
             <td th:text="${book.author}"></td>
             <td th:text="${book.title}"></td>
             <td th:text="${book.pagesize}"></td>
+            <td>
+                <form method="get" th:action="@{/books/download}">
+                    <input class="button" type="submit" value="download">
+                </form>
+            </td>
         </tr>
     </table>
 
 </div>
 <form method="get" th:action="@{/login}">
-    <input class="button_item" type="submit" value="exit">
+    <input class="button_item" type="submit" value="back to login">
 </form>
+
 </body>
 </html>

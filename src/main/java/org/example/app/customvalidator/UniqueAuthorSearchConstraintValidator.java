@@ -3,39 +3,39 @@ package org.example.app.customvalidator;
 import org.apache.log4j.Logger;
 import org.example.app.services.BookRepository;
 import org.example.web.dto.Book;
-import org.example.web.dto.BookIdToRemove;
+import org.example.web.dto.BookAuthorToRemove;
+import org.example.web.dto.BookAuthorToSearch;
 import org.springframework.beans.factory.annotation.Autowired;
-
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UniqueIdConstraintValidator implements ConstraintValidator<UniqueId, BookIdToRemove> {
+public class UniqueAuthorSearchConstraintValidator implements ConstraintValidator<SearchUniqueAuthor, BookAuthorToSearch> {
 
-    private Logger logger = Logger.getLogger(UniqueIdConstraintValidator.class);
+    private Logger logger = Logger.getLogger(UniqueAuthorSearchConstraintValidator.class);
 
     @Autowired
     private BookRepository bookRepository;
 
-    public UniqueIdConstraintValidator(BookRepository bookRepository) {
+    public UniqueAuthorSearchConstraintValidator(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     @Override
-    public void initialize(UniqueId uniqueId) {
+    public void initialize(SearchUniqueAuthor searchUniqueAuthor) {
 
     }
 
     @Override
-    public boolean isValid(BookIdToRemove bookIdToRemove, ConstraintValidatorContext ctx) {
-        logger.info("Custom validator isValid " + bookIdToRemove.getId());
+    public boolean isValid(BookAuthorToSearch bookAuthorToSearch, ConstraintValidatorContext ctx) {
         int count = 0;
         for (Book book : bookRepository.retreiveAll()) {
-            if (book.getId().equals(bookIdToRemove.getId()) || book.getPagesize().equals(bookIdToRemove.getId())) {
+            if (book.getAuthor().equals(bookAuthorToSearch.getAuthorForSearch())
+                    || book.getTitle().equals(bookAuthorToSearch.getAuthorForSearch())) {
                 ctx.disableDefaultConstraintViolation();
                 ctx.buildConstraintViolationWithTemplate(
                         "{My custom validator}")
-                        .addPropertyNode("id").addConstraintViolation();
+                        .addPropertyNode("authorForSearch").addConstraintViolation();
                 count++;
             }
         }
@@ -48,13 +48,6 @@ public class UniqueIdConstraintValidator implements ConstraintValidator<UniqueId
         }
     }
 }
-
-
-
-
-
-
-
 
 
 
