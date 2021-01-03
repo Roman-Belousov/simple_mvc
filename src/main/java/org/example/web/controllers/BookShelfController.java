@@ -18,8 +18,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
+import java.net.URLEncoder;
 
 @Controller
 @RequestMapping(value = "/books")
@@ -121,7 +125,7 @@ public class BookShelfController {
     }
 
     @PostMapping("/uploadFile")
-    public String uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
+    public String uploadFile( @RequestParam("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             return "errors/500";
         } else {
@@ -136,11 +140,13 @@ public class BookShelfController {
             }
 
             //create file
+
             File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
             stream.write(bytes);
             stream.close();
 
+            String filenames = serverFile.getAbsolutePath();
             logger.info("new file saved at: " + serverFile.getAbsolutePath());
 
             return "redirect:/books/shelf";
@@ -148,24 +154,28 @@ public class BookShelfController {
     }
 
     @RequestMapping("/download")
-    public ResponseEntity<Object> downloadFile() throws Exception {
+    public ResponseEntity<Object> downloadFile(@RequestParam("downloadfile") File file) throws Exception {
+
         logger.info("start download");
-        String filename = "C:\\Program Files\\Tomcat\\Ekkel_Filosofiya_java.epub";
-        File file1 = new File(filename);
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file1));
+        String filename = System.getProperty("catalina.home");
+        File downloadfile = new File(filename + File.separator + "external_uploads/" + file.getName());
+        logger.info("start download" + downloadfile.getAbsolutePath());
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadfile));
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file1.getName()));
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", downloadfile.getName()));
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
 
-        ResponseEntity<Object> responseEntity = ResponseEntity.ok().headers(headers).contentLength(file1.length()).contentType(
+        ResponseEntity<Object> responseEntity = ResponseEntity.ok().headers(headers).contentLength(downloadfile.length()).contentType(
                 MediaType.parseMediaType("application/txt")).body(resource);
-
+        logger.info("finish download");
         return responseEntity;
     }
 }
+
+
 
 
 
