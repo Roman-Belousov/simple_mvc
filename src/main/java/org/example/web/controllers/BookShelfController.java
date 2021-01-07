@@ -1,5 +1,6 @@
 package org.example.web.controllers;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import org.apache.log4j.Logger;
 import org.example.app.services.BookService;
 import org.example.web.dto.Book;
@@ -7,6 +8,7 @@ import org.example.web.dto.BookAuthorToSearch;
 import org.example.web.dto.BookIdToRemove;
 import org.example.web.dto.BookAuthorToRemove;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.ServletRequest;
+import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -33,7 +39,7 @@ public class BookShelfController {
     private Logger logger = Logger.getLogger(BookShelfController.class);
 
     private BookService bookService;
-
+    public static File serverFile;
 
     @Autowired
     public BookShelfController(BookService bookService) {
@@ -124,29 +130,28 @@ public class BookShelfController {
         }
     }
 
-    @PostMapping("/uploadFile")
-    public String uploadFile( @RequestParam("file") MultipartFile file) throws Exception {
+    @RequestMapping("/uploadFile")
+    public String uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
+
         if (file.isEmpty()) {
             return "errors/500";
         } else {
             String name = file.getOriginalFilename();
             byte[] bytes = file.getBytes();
-
             //create dir
             String rootPath = System.getProperty("catalina.home");
             File dir = new File(rootPath + File.separator + "external_uploads");
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-
             //create file
-
             File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
             stream.write(bytes);
+            request.getSession().setAttribute("serverFile", serverFile);
+
             stream.close();
 
-            String filenames = serverFile.getAbsolutePath();
             logger.info("new file saved at: " + serverFile.getAbsolutePath());
 
             return "redirect:/books/shelf";
@@ -154,15 +159,14 @@ public class BookShelfController {
     }
 
     @RequestMapping("/download")
-    public ResponseEntity<Object> downloadFile(@RequestParam("downloadfile") File file) throws Exception {
+    public ResponseEntity<Object> downloadFile(HttpServletRequest request) throws Exception {
+        serverFile = (File) request.getSession().getAttribute("serverFile");
 
-        logger.info("start download");
-        String filename = System.getProperty("catalina.home");
-        File downloadfile = new File(filename + File.separator + "external_uploads/" + file.getName());
-        logger.info("start download" + downloadfile.getAbsolutePath());
+        logger.info("start download " + serverFile.getAbsolutePath());
+
+        File downloadfile = new File(serverFile.getAbsolutePath());
         InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadfile));
         HttpHeaders headers = new HttpHeaders();
-
         headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", downloadfile.getName()));
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
